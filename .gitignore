@@ -15,3 +15,8 @@
 *.targets
 *.txt
 /PHIRedactAppUnitTests/bin/Release/net8.0
+/PHIRedactWebApp/obj/Release/net8.0
+/PHIRedactWebApp/obj/Debug/net8.0
+/PHIRedactAppUnitTests/obj
+/PHIRedactApp/obj
+/PHIRedactApp/.vs
