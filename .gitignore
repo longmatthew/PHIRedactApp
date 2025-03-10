@@ -9,3 +9,9 @@
 /PHIRedactAppUnitTests/obj/Release/net8.0/PHIRedactAppUnitTests.GeneratedMSBuildEditorConfig.editorconfig
 *.cache
 *.editorconfig
+/PHIRedactAppUnitTests/bin/Debug/net8.0
+*.json
+*.props
+*.targets
+*.txt
+/PHIRedactAppUnitTests/bin/Release/net8.0
