@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/PHIRedactAppUnitTests/obj/Debug/net8.0/PHIRedactAppUnitTests.AssemblyInfoInputs.cache
+/PHIRedactAppUnitTests/obj/Debug/net8.0/PHIRedactAppUnitTests.GeneratedMSBuildEditorConfig.editorconfig
+/PHIRedactAppUnitTests/obj/Release/net8.0/PHIRedactAppUnitTests.AssemblyInfoInputs.cache
+/PHIRedactAppUnitTests/obj/Release/net8.0/PHIRedactAppUnitTests.GeneratedMSBuildEditorConfig.editorconfig
+*.cache
+*.editorconfig

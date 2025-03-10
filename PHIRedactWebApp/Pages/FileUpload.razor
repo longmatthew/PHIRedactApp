@@ -1,0 +1,61 @@
+﻿@page "/upload"
+@using System.Text
+@using PHIRedactWebApp.Services
+@inject ApiService ApiService
+
+<h3>Upload Files for PHI Redaction</h3>
+
+<InputFile OnChange="HandleFilesSelected" multiple />
+<button @onclick="UploadFiles" disabled="@(!CanUpload)">Upload</button>
+
+@if (!string.IsNullOrEmpty(StatusMessage))
+{
+    <p>@StatusMessage</p>
+}
+
+@code {
+    private List<IBrowserFile> SelectedFiles = new();
+    private bool CanUpload => SelectedFiles.Count > 0;
+    private string? StatusMessage;
+
+    private void HandleFilesSelected(InputFileChangeEventArgs e)
+    {
+        SelectedFiles = e.GetMultipleFiles().ToList();
+    }
+
+    private async Task UploadFiles()
+    {
+        if (SelectedFiles.Count == 0)
+        {
+            StatusMessage = "Please select at least one file.";
+            return;
+        }
+
+        bool isSingleFile = SelectedFiles.Count == 1;
+        using var stream = new MemoryStream();
+
+        if (isSingleFile)
+        {
+            var file = SelectedFiles.First();
+            await file.OpenReadStream().CopyToAsync(stream);
+            bool success = await ApiService.UploadFilesAsync(file.Name, stream);
+            StatusMessage = success ? "Single file uploaded successfully!" : "Failed to upload single file.";
+        }
+        else
+        {
+            var batchFileName = $"Batch_{DateTime.UtcNow:yyyyMMddHHmmss}.txt";
+            var batchContent = new StringBuilder();
+
+            foreach (var file in SelectedFiles)
+            {
+                using var reader = new StreamReader(file.OpenReadStream());
+                batchContent.AppendLine(await reader.ReadToEndAsync());
+                batchContent.AppendLine("----- FILE SEPARATOR -----");
+            }
+
+            using var batchStream = new MemoryStream(Encoding.UTF8.GetBytes(batchContent.ToString()));
+            bool success = await ApiService.UploadFilesAsync(batchFileName, batchStream);
+            StatusMessage = success ? "Batch files uploaded successfully!" : "Failed to upload batch files.";
+        }
+    }
+}
